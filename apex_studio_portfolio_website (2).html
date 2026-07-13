@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Studio | Artisans du Web Premium</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js (State Management & Translations) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- GSAP (Premium Animations) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Font Awesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBg: '#090909',
+                        brandPrimary: '#E9DFC8', // Warm Beige
+                        brandAccent: '#A8C7A1',  // Soft Sage Green
+                        brandWhite: '#F5F5F5',
+                        brandMuted: '#999999',
+                        brandCard: '#0E0E0E',
+                        brandCardHover: '#141414',
+                        brandBorder: '#1F1F1F',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 20s linear infinite',
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles for High-End Interaction -->
+    <style>
+        [x-cloak] { display: none !important; }
+        
+        body {
+            background-color: #090909;
+            color: #F5F5F5;
+            overflow-x: hidden;
+        }
+
+        /* Custom premium scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090909;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #252525;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E9DFC8;
+        }
+
+        /* Premium glow cards with clear borders */
+        .glass-card {
+            background: rgba(14, 14, 14, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(233, 223, 200, 0.35);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 
+                        inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+        }
+
+        /* Premium custom cursor */
+        .custom-cursor {
+            width: 8px;
+            height: 8px;
+            background: #E9DFC8;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 10000;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .custom-cursor-follower {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(233, 223, 200, 0.35);
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.08s cubic-bezier(0.25, 1, 0.5, 1), 
+                        width 0.2s, height 0.2s, border-color 0.2s;
+        }
+
+        /* Hide cursor elements on touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            .custom-cursor, .custom-cursor-follower {
+                display: none;
+            }
+        }
+
+        /* Glowing background blobs - brighter and clearer */
+        .ambient-glow-1 {
+            background: radial-gradient(circle, rgba(233, 223, 200, 0.12) 0%, rgba(9, 9, 9, 0) 70%);
+        }
+        .ambient-glow-2 {
+            background: radial-gradient(circle, rgba(168, 199, 161, 0.1) 0%, rgba(9, 9, 9, 0) 70%);
+        }
+
+        /* Typography spacing & fluid scale */
+        .text-gradient {
+            background: linear-gradient(135deg, #F5F5F5 30%, #E9DFC8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .text-gradient-accent {
+            background: linear-gradient(135deg, #E9DFC8 0%, #A8C7A1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body 
+    x-data="{ 
+        lang: 'fr', 
+        isScrolled: false, 
+        mobileMenuOpen: false,
+        activeProcessStep: 1,
+        plannerClient: 'physique',
+        plannerSubOption: 'auto',
+        plannerService: 'landing'
+    }"
+    x-init="
+        window.addEventListener('scroll', () => { isScrolled = window.scrollY > 50 });
+        gsap.registerPlugin(ScrollTrigger);
+    "
+    class="selection:bg-brandPrimary selection:text-brandBg"
+>
+
+    <div id="cursor-dot" class="custom-cursor"></div>
+    <div id="cursor-follower" class="custom-cursor-follower"></div>
+
+    <!-- Background Layer -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <canvas id="ambient-canvas" class="w-full h-full opacity-70"></canvas>
+        <div class="absolute top-[5%] left-[15%] w-[50vw] h-[50vw] ambient-glow-1 rounded-full mix-blend-screen animate-pulse-slow"></div>
+        <div class="absolute bottom-[10%] right-[10%] w-[60vw] h-[60vw] ambient-glow-2 rounded-full mix-blend-screen animate-pulse-slow" style="animation-delay: 3s;"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header 
+        :class="isScrolled ? 'py-4 bg-brandBg/90 border-b border-white/5 backdrop-blur-xl' : 'py-6 bg-transparent border-b border-transparent'" 
+        class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
+    >
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            
+            <!-- Logo Section -->
+            <a href="#hero" class="flex items-center space-x-3 cursor-hover group">
+                <div class="relative w-9 h-9 rounded-lg bg-gradient-to-tr from-brandPrimary via-brandBg to-brandAccent p-[1px] transition-transform duration-500 group-hover:rotate-12">
+                    <div class="w-full h-full bg-brandBg rounded-[7px] flex items-center justify-center">
+                        <span class="font-display text-xs font-extrabold text-brandPrimary tracking-widest">APS</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-display text-base font-extrabold tracking-tight text-brandWhite">APEX STUDIO</span>
+                    <span class="text-[8px] tracking-[0.3em] text-brandAccent font-semibold leading-none">CRAFTED DIGITAL</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu Links -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-xs font-medium text-brandWhite/70 hover:text-brandPrimary cursor-hover transition-colors tracking-wider uppercase">
+                    <span x-show="lang === 'fr'">À Propos</span>
+                    <span x-show="lang === 'en'">About</span>
+                </a>
+                <a href="#services" class="text-xs font-medium text-brandWhite/70 hover:text-brandPrimary cursor-hover transition-colors tracking-wider uppercase">
+                    <span x-show="lang === 'fr'">Services</span>
+                    <span x-show="lang === 'en'">Services</span>
+                </a>
+                <a href="#portfolio" class="text-xs font-medium text-brandWhite/70 hover:text-brandPrimary cursor-hover transition-colors tracking-wider uppercase">
+                    <span x-show="lang === 'fr'">Portfolio</span>
+                    <span x-show="lang === 'en'">Portfolio</span>
+                </a>
+                <a href="#process" class="text-xs font-medium text-brandWhite/70 hover:text-brandPrimary cursor-hover transition-colors tracking-wider uppercase">
+                    <span x-show="lang === 'fr'">Processus</span>
+                    <span x-show="lang === 'en'">Process</span>
+                </a>
+                <a href="#why-us" class="text-xs font-medium text-brandWhite/70 hover:text-brandPrimary cursor-hover transition-colors tracking-wider uppercase">
+                    <span x-show="lang === 'fr'">Pourquoi APS</span>
+                    <span x-show="lang === 'en'">Why Us</span>
+                </a>
+            </nav>
+
+            <!-- Language Switcher & Call to Action (Desktop) -->
+            <div class="hidden md:flex items-center space-x-6">
+                <!-- Premium Language Selector Toggle -->
+                <div class="flex bg-[#121212] border border-white/10 p-[3px] rounded-full text-[10px]">
+                    <button 
+                        @click="lang = 'fr'" 
+                        :class="lang === 'fr' ? 'bg-brandPrimary text-brandBg font-bold' : 'text-brandWhite/60 hover:text-brandWhite'" 
+                        class="px-2.5 py-1 rounded-full transition-all duration-300 cursor-hover"
+                    >
+                        FR
+                    </button>
+                    <button 
+                        @click="lang = 'en'" 
+                        :class="lang === 'en' ? 'bg-brandPrimary text-brandBg font-bold' : 'text-brandWhite/60 hover:text-brandWhite'" 
+                        class="px-2.5 py-1 rounded-full transition-all duration-300 cursor-hover"
+                    >
+                        EN
+                    </button>
+                </div>
+
+                <!-- Custom CTA Button -->
+                <a 
+                    href="#contact" 
+                    class="relative overflow-hidden group px-5 py-2 rounded-full border border-brandPrimary/30 bg-transparent text-brandPrimary hover:text-brandBg text-xs font-semibold tracking-wider uppercase transition-colors duration-500 cursor-hover"
+                >
+                    <span class="absolute inset-0 w-full h-full bg-brandPrimary origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-out z-0"></span>
+                    <span class="relative z-10 flex items-center space-x-2">
+                        <span x-show="lang === 'fr'">Lancer un projet</span>
+                        <span x-show="lang === 'en'">Get in touch</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </span>
+                </a>
+            </div>
+
+            <!-- Hamburger Button for Mobile -->
+            <div class="flex items-center space-x-4 md:hidden">
+                <button 
+                    @click="lang = (lang === 'fr' ? 'en' : 'fr')" 
+                    class="bg-[#121212] border border-white/10 px-3 py-1 rounded-full text-xs font-semibold text-brandPrimary cursor-hover"
+                >
+                    <span x-text="lang.toUpperCase()"></span>
+                </button>
+                
+                <button 
+                    @click="mobileMenuOpen = !mobileMenuOpen" 
+                    class="text-brandWhite focus:outline-none w-9 h-9 flex items-center justify-center border border-white/10 rounded-full bg-[#121212] cursor-hover"
+                >
+                    <i :class="mobileMenuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div 
+            x-show="mobileMenuOpen" 
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 -translate-y-10"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 -translate-y-10"
+            class="md:hidden absolute top-full left-0 w-full bg-[#0d0d0d] border-b border-white/10 py-6 px-6 flex flex-col space-y-4"
+        >
+            <a href="#about" @click="mobileMenuOpen = false" class="text-sm font-medium text-brandWhite/80 py-2">
+                <span x-show="lang === 'fr'">À Propos</span>
+                <span x-show="lang === 'en'">About</span>
+            </a>
+            <a href="#services" @click="mobileMenuOpen = false" class="text-sm font-medium text-brandWhite/80 py-2">
+                <span x-show="lang === 'fr'">Services</span>
+                <span x-show="lang === 'en'">Services</span>
+            </a>
+            <a href="#portfolio" @click="mobileMenuOpen = false" class="text-sm font-medium text-brandWhite/80 py-2">
+                <span x-show="lang === 'fr'">Portfolio</span>
+                <span x-show="lang === 'en'">Portfolio</span>
+            </a>
+            <a href="#process" @click="mobileMenuOpen = false" class="text-sm font-medium text-brandWhite/80 py-2">
+                <span x-show="lang === 'fr'">Processus</span>
+                <span x-show="lang === 'en'">Process</span>
+            </a>
+            <a href="#why-us" @click="mobileMenuOpen = false" class="text-sm font-medium text-brandWhite/80 py-2">
+                <span x-show="lang === 'fr'">Pourquoi APS</span>
+                <span x-show="lang === 'en'">Why Us</span>
+            </a>
+            <a href="#contact" @click="mobileMenuOpen = false" class="w-full text-center py-3 bg-brandPrimary text-brandBg rounded-full font-bold text-sm">
+                <span x-show="lang === 'fr'">Lancer un projet</span>
+                <span x-show="lang === 'en'">Get in touch</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-28 pb-16 px-6 z-10 overflow-hidden">
+        <div class="max-w-6xl mx-auto text-center flex flex-col items-center">
+            
+            <!-- Award Ribbon Badge -->
+            <div class="hero-reveal inline-flex items-center space-x-2 bg-[#121212] border border-white/10 px-4 py-2 rounded-full mb-8 shadow-2xl">
+                <span class="w-2 h-2 rounded-full bg-brandAccent animate-pulse"></span>
+                <span class="text-[10px] tracking-[0.25em] uppercase font-bold text-brandPrimary">
+                    <span x-show="lang === 'fr'">STUDIO DIGITAL SUR-MESURE & PERFORMANCE HAUT DE GAMME</span>
+                    <span x-show="lang === 'en'">BESPOKE DIGITAL STUDIO & LUXURY PERFORMANCE</span>
+                </span>
+            </div>
+
+            <!-- Handcrafted Statement -->
+            <h1 class="hero-reveal font-display text-5xl sm:text-7xl md:text-9xl font-extrabold tracking-tighter leading-[0.95] mb-8">
+                <span x-show="lang === 'fr'" class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6">
+                    <span class="bg-gradient-to-r from-[#E9DFC8] via-[#F5F5F5] to-[#E9DFC8] bg-clip-text text-transparent font-serif italic font-normal">Attirez.</span>
+                    <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent">Brillez.</span>
+                    <span class="bg-gradient-to-r from-[#A8C7A1] to-[#34D399] bg-clip-text text-transparent">Vendez.</span>
+                </span>
+                <span x-show="lang === 'en'" class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6">
+                    <span class="bg-gradient-to-r from-[#E9DFC8] via-[#F5F5F5] to-[#E9DFC8] bg-clip-text text-transparent font-serif italic font-normal">Attract.</span>
+                    <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent">Shine.</span>
+                    <span class="bg-gradient-to-r from-[#A8C7A1] to-[#34D399] bg-clip-text text-transparent">Scale.</span>
+                </span>
+            </h1>
+
+            <!-- Narrative Subtitle -->
+            <p class="hero-reveal text-sm sm:text-lg text-brandWhite/70 max-w-2xl font-light mb-12 leading-relaxed">
+                <span x-show="lang === 'fr'">
+                    Apex Studio façonne des expériences numériques d'exception. Un design sur-mesure combinant pureté esthétique et ingénierie de pointe pour capter l'attention de vos visiteurs et asseoir votre autorité.
+                </span>
+                <span x-show="lang === 'en'">
+                    Apex Studio crafts outstanding digital environments. Minimal luxury design coupled with bespoke high-performance coding, tailored perfectly to expand your brand's reach.
+                </span>
+            </p>
+
+            <!-- CTA Container -->
+            <div class="hero-reveal flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+                <a 
+                    href="#portfolio" 
+                    class="relative w-full sm:w-auto overflow-hidden group px-8 py-3.5 rounded-full bg-brandPrimary text-brandBg text-xs font-bold tracking-wider uppercase transition-all duration-300 hover:shadow-[0_0_30px_rgba(233,223,200,0.3)] cursor-hover"
+                >
+                    <span x-show="lang === 'fr'">Découvrir nos créations</span>
+                    <span x-show="lang === 'en'">Explore our designs</span>
+                    <i class="fa-solid fa-arrow-right ml-2 text-[10px]"></i>
+                </a>
+                
+                <a 
+                    href="#contact" 
+                    class="relative w-full sm:w-auto overflow-hidden group px-8 py-3.5 rounded-full border border-white/10 bg-[#121212]/50 backdrop-blur text-brandWhite hover:text-brandPrimary hover:border-brandPrimary/35 text-xs font-bold tracking-wider uppercase transition-all duration-500 cursor-hover"
+                >
+                    <span x-show="lang === 'fr'">Lancer un projet</span>
+                    <span x-show="lang === 'en'">Get in touch</span>
+                    <i class="fa-solid fa-calculator ml-2 text-[10px]"></i>
+                </a>
+            </div>
+
+            <!-- Trust Grid Labels -->
+            <div class="hero-reveal grid grid-cols-2 md:grid-cols-4 gap-8 mt-24 pt-10 border-t border-white/5 w-full text-left">
+                <div>
+                    <span class="block font-display text-2xl font-bold text-brandPrimary">AWARDS</span>
+                    <span class="text-[10px] text-brandMuted uppercase tracking-widest">
+                        <span x-show="lang === 'fr'">Standard de design</span>
+                        <span x-show="lang === 'en'">Design Standard</span>
+                    </span>
+                </div>
+                <div>
+                    <span class="block font-display text-2xl font-bold text-brandPrimary">99%+</span>
+                    <span class="text-[10px] text-brandMuted uppercase tracking-widest">
+                        <span x-show="lang === 'fr'">Score de vitesse</span>
+                        <span x-show="lang === 'en'">PageSpeed Rating</span>
+                    </span>
+                </div>
+                <div>
+                    <span class="block font-display text-2xl font-bold text-brandPrimary">100%</span>
+                    <span class="text-[10px] text-brandMuted uppercase tracking-widest">
+                        <span x-show="lang === 'fr'">Zéro template</span>
+                        <span x-show="lang === 'en'">Bespoke crafted</span>
+                    </span>
+                </div>
+                <div>
+                    <span class="block font-display text-2xl font-bold text-brandPrimary">EUROPE</span>
+                    <span class="text-[10px] text-brandMuted uppercase tracking-widest">
+                        <span x-show="lang === 'fr'">Clients d'exception</span>
+                        <span x-show="lang === 'en'">Global Reach</span>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Infinite Scrolling Marquee -->
+    <section class="py-6 border-y border-white/5 bg-[#0a0a0a] overflow-hidden select-none relative z-10">
+        <div class="flex whitespace-nowrap gap-12 text-[10px] font-bold tracking-[0.4em] text-brandMuted/50 uppercase">
+            <div class="animate-[marquee_30s_linear_infinite] flex items-center space-x-12 shrink-0">
+                <span>DIGITAL ARCHITECTS • APEX STUDIO • WE ATTRACT MORE CUSTOMERS • ZERO TEMPLATE GUARANTEE</span>
+                <span>• OPTIMIZED CODE • EXTREME SPEED • LUXURY CRAFTSMANSHIP • BILINGUAL SUPPORT</span>
+                <span>• PREMIUM SAAS • E-COMMERCE STORES • PORTFOLIOS • CORPORATE HUB</span>
+            </div>
+            <div class="animate-[marquee_30s_linear_infinite] flex items-center space-x-12 shrink-0" aria-hidden="true">
+                <span>DIGITAL ARCHITECTS • APEX STUDIO • WE ATTRACT MORE CUSTOMERS • ZERO TEMPLATE GUARANTEE</span>
+                <span>• OPTIMIZED CODE • EXTREME SPEED • LUXURY CRAFTSMANSHIP • BILINGUAL SUPPORT</span>
+                <span>• PREMIUM SAAS • E-COMMERCE STORES • PORTFOLIOS • CORPORATE HUB</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 px-6 max-w-7xl mx-auto relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            
+            <!-- Left Side Title Block -->
+            <div class="lg:col-span-5">
+                <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brandAccent block mb-4">
+                    <span x-show="lang === 'fr'">NOTRE VISION</span>
+                    <span x-show="lang === 'en'">OUR VISION</span>
+                </span>
+                <h2 class="font-display text-3xl md:text-5xl font-extrabold tracking-tight text-brandWhite leading-tight">
+                    <span x-show="lang === 'fr'">Une approche artisanale de l'ingénierie web.</span>
+                    <span x-show="lang === 'en'">A handcrafted approach to modern engineering.</span>
+                </h2>
+                
+                <div class="mt-12 p-6 glass-card rounded-2xl border-l-2 border-l-brandPrimary">
+                    <p class="font-serif italic text-brandPrimary text-base md:text-lg">
+                        <span x-show="lang === 'fr'">"Votre site web ne doit pas simplement être beau. Il doit être votre commercial le plus performant, disponible 24h/24."</span>
+                        <span x-show="lang === 'en'">"Your website shouldn't just look spectacular. It should operate as your most relentless, high-converting asset, 24/7."</span>
+                    </p>
+                    <span class="block mt-4 text-[9px] font-bold text-brandWhite uppercase tracking-widest">— APEX CREATIVE TEAM</span>
+                </div>
+            </div>
+
+            <!-- Right Side Text & Pillars -->
+            <div class="lg:col-span-7 flex flex-col space-y-8 text-brandWhite/80 font-light text-base md:text-lg leading-relaxed">
+                <p>
+                    <span x-show="lang === 'fr'">
+                        Chez Apex Studio, nous refusons les compromises et les structures préconçues. Nous pensons que chaque pixel doit être intentionnel. Que vous lanciez une startup innovante, une boutique e-commerce raffinée, un site d'entreprise ou votre propre portfolio artistique, votre plateforme digitale est votre plus puissant vecteur de crédibilité.
+                    </span>
+                    <span x-show="lang === 'en'">
+                        At Apex Studio, we bypass structural shortcuts and standard templates. We believe every pixel must serve a purpose. Whether you are launching an innovative SaaS startup, a refined e-commerce experience, or a highly corporate portfolio, your presence is your ultimate conversion driver.
+                    </span>
+                </p>
+                <p>
+                    <span x-show="lang === 'fr'">
+                        Nous allions la rigueur du design suisse aux technologies de développement les plus performantes (sans frameworks lourds, optimisés pour la vitesse de chargement absolue) afin de sculpter des outils de croissance inégalés. Nous combinons un sens inné du minimalisme haut de gamme avec une maîtrise parfaite du référencement pour vous propulser au sommet de votre secteur.
+                    </span>
+                    <span x-show="lang === 'en'">
+                        We merge high-fidelity Swiss design guidelines with lightweight code architecture. Everything we touch is designed to load instantly and rank organically, positioning you as the absolute leader in your digital space.
+                    </span>
+                </p>
+
+                <!-- High-End Service Icons Row -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-8 border-t border-white/5">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-brandPrimary/10 border border-brandPrimary/20 flex items-center justify-center text-brandPrimary">
+                            <i class="fa-solid fa-code text-sm"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-brandWhite">Clean Code</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-brandAccent/10 border border-brandAccent/20 flex items-center justify-center text-brandAccent">
+                            <i class="fa-solid fa-bolt text-sm"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-brandWhite">Speed Dev</span>
+                    </div>
+                    <div class="flex items-center space-x-3 col-span-2 sm:col-span-1">
+                        <div class="w-10 h-10 rounded-full bg-brandPrimary/10 border border-brandPrimary/20 flex items-center justify-center text-brandPrimary">
+                            <i class="fa-solid fa-ranking-star text-sm"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-brandWhite">High SEO</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Strategic Alliance Section (Our Purpose vs Your Success) -->
+    <section id="alliance" class="py-32 px-6 max-w-7xl mx-auto relative z-10 border-t border-white/5">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            
+            <!-- Left Side: Interactive Purpose Dashboard / Philosophy Visual -->
+            <div class="lg:col-span-6 order-2 lg:order-1">
+                <div class="glass-card p-8 rounded-3xl relative overflow-hidden border border-brandAccent/20 bg-brandCard/40">
+                    <!-- Subtle Glow -->
+                    <div class="absolute -top-12 -left-12 w-48 h-48 bg-brandAccent/10 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div class="relative z-10 space-y-8">
+                        <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brandAccent block">
+                            <span x-show="lang === 'fr'">L'ALLIANCE GAGNANTE</span>
+                            <span x-show="lang === 'en'">THE STRATEGIC ALLIANCE</span>
+                        </span>
+                        
+                        <!-- Visual Split Comparison -->
+                        <div class="space-y-6">
+                            <!-- Seller's Role -->
+                            <div class="flex items-start space-x-4 p-4 rounded-2xl bg-brandBg/60 border border-white/5">
+                                <div class="w-10 h-10 rounded-full bg-brandPrimary/10 border border-brandPrimary/25 flex items-center justify-center text-brandPrimary shrink-0">
+                                    <i class="fa-solid fa-user-tie text-xs"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-brandPrimary mb-1">
+                                        <span x-show="lang === 'fr'">Votre Rôle : L'Excellence Métier</span>
+                                        <span x-show="lang === 'en'">Your Focus: Absolute Craftsmanship</span>
+                                    </h4>
+                                    <p class="text-xs text-brandMuted leading-relaxed font-light">
+                                        <span x-show="lang === 'fr'">Vous vous concentrez à 100% sur ce qui fait votre force : vos clients, vos services, vos produits et votre croissance physique ou digitale.</span>
+                                        <span x-show="lang === 'en'">You focus entirely on your core strengths: your clients, your operations, and scaling your real-world authority.</span>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Middle Connector (Sleek line) -->
+                            <div class="flex justify-center my-2">
+                                <div class="h-8 w-[1px] bg-gradient-to-b from-brandPrimary via-brandAccent to-brandPrimary"></div>
+                            </div>
+
+                            <!-- Our Purpose -->
+                            <div class="flex items-start space-x-4 p-4 rounded-2xl bg-brandBg/60 border border-white/5">
+                                <div class="w-10 h-10 rounded-full bg-brandAccent/10 border border-brandAccent/25 flex items-center justify-center text-brandAccent shrink-0">
+                                    <i class="fa-solid fa-arrows-spin text-xs animate-spin-slow"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-wider text-brandAccent mb-1">
+                                        <span x-show="lang === 'fr'">Notre But : Votre Moteur de Conversion</span>
+                                        <span x-show="lang === 'en'">Our Purpose: Your Conversion Engine</span>
+                                    </h4>
+                                    <p class="text-xs text-brandMuted leading-relaxed font-light">
+                                        <span x-show="lang === 'fr'">Traduire votre valeur unique en une machine numérique irrésistible. Nous captons l'attention et générons des opportunités sans relâche.</span>
+                                        <span x-show="lang === 'en'">We convert your offline/online quality into digital excellence, bringing you qualified leads and consistent growth.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Joint Metrics Showcase -->
+                        <div class="border-t border-white/5 pt-6 grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="block text-[9px] text-brandMuted uppercase tracking-wider">
+                                    <span x-show="lang === 'fr'">VOTRE TEMPS LIBÉRÉ</span>
+                                    <span x-show="lang === 'en'">YOUR FREEDOM RATING</span>
+                                </span>
+                                <span class="text-lg font-bold text-brandWhite">100% Focus</span>
+                            </div>
+                            <div>
+                                <span class="block text-[9px] text-brandMuted uppercase tracking-wider">
+                                    <span x-show="lang === 'fr'">NOTRE ENGAGEMENT</span>
+                                    <span x-show="lang === 'en'">OUR COMMITMENT</span>
+                                </span>
+                                <span class="text-lg font-bold text-brandAccent">ROI & Clarté</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Beautiful Explanatory Narrative -->
+            <div class="lg:col-span-6 order-1 lg:order-2 space-y-6">
+                <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brandPrimary block">
+                    <span x-show="lang === 'fr'">POURQUOI NOUS FAISONS CELA</span>
+                    <span x-show="lang === 'en'">THE HEART OF OUR WORK</span>
+                </span>
+                
+                <h2 class="font-display text-3xl md:text-5xl font-extrabold tracking-tight text-brandWhite leading-tight">
+                    <span x-show="lang === 'fr'">Votre succès est notre unique boussole.</span>
+                    <span x-show="lang === 'en'">Your triumph is our absolute purpose.</span>
+                </h2>
+                
+                <p class="text-brandWhite/80 font-light text-sm md:text-base leading-relaxed">
+                    <span x-show="lang === 'fr'">
+                        La plupart des agences créent des sites pour flatter leur propre portfolio. Chez <strong>Apex Studio</strong>, notre philosophie est radicalement différente : nous concevons votre site comme un <strong>partenaire d'affaires silencieux et infatigable</strong>.
+                    </span>
+                    <span x-show="lang === 'en'">
+                        Most design studios build platforms to glorify their own portfolio. At <strong>Apex Studio</strong>, our philosophy is entirely client-centric: we design your platform to act as a <strong>tireless, quiet digital partner</strong>.
+                    </span>
+                </p>
+
+                <p class="text-brandMuted font-light text-xs md:text-sm leading-relaxed">
+                    <span x-show="lang === 'fr'">
+                        Notre but ultime est de vous décharger entièrement de la complexité technique : hébergement, design adaptatif, référencement Google et vitesse d'affichage. Nous traduisons visuellement le soin extrême que vous apportez à vos propres produits ou services. Pendant que vous brillez dans votre domaine, votre site travaille dans l'ombre pour attirer de futurs clients, asseoir votre réputation et sécuriser vos revenus.
+                    </span>
+                    <span x-show="lang === 'en'">
+                        Our ultimate goal is to remove every technical hurdle: servers, speed audits, SEO parameters, and framework upgrades. We visually project the outstanding standards you apply to your own crafts. While you dominate your specialty, your website works behind the scenes to convert incoming traffic and build long-term value.
+                    </span>
+                </p>
+
+                <div class="pt-4 flex items-center space-x-3 text-brandPrimary">
+                    <div class="w-8 h-[1px] bg-brandPrimary"></div>
+                    <span class="text-xs font-bold tracking-widest uppercase">
+                        <span x-show="lang === 'fr'">DEUX COMPÉTENCES, UNE FORCE UNIQUE</span>
+                        <span x-show="lang === 'en'">TWO SKILLS, ONE UNIFIED FORCE</span>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-32 px-6 bg-[#0a0a0a] border-y border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-24 max-w-2xl mx-auto">
+                <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brandAccent block mb-4">
+                    <span x-show="lang === 'fr'">EXPERTISES TECHNIQUES</span>
+                    <span x-show="lang === 'en'">DIGITAL EXPERTISES</span>
+                </span>
+                <h2 class="font-display text-3xl md:text-5xl font-extrabold tracking-tight text-brandWhite">
+                    <span x-show="lang === 'fr'">Conçus pour la conversion</span>
+                    <span x-show="lang === 'en'">Engineered for conversions</span>
+                </h2>
+                <div class="w-12 h-[1px] bg-brandPrimary mx-auto mt-6"></div>
+            </div>
+
+            <!-- Services Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Service 1: Premium Design -->
+                <div class="glass-card p-8 rounded-3xl relative group overflow-hidden cursor-hover flex flex-col justify-between min-h-[300px]">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-brandPrimary/5 border border-white/10 flex items-center justify-center text-brandPrimary mb-6 group-hover:bg-brandPrimary group-hover:text-brandBg transition-all duration-500">
+                            <i class="fa-solid fa-pen-nib text-lg"></i>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Design Web Premium</span>
+                            <span x-show="lang === 'en'">Premium Web Design</span>
+                        </h3>
+                        <p class="text-xs text-brandMuted leading-relaxed">
+                            <span x-show="lang === 'fr'">Direction artistique exclusive et interfaces uniques adaptées à votre positionnement haut de gamme.</span>
+                            <span x-show="lang === 'en'">Exclusive art direction and bespoke user interfaces matching high-end digital standards.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-widest text-brandPrimary uppercase mt-6 block">01 / ART</span>
+                </div>
+
+                <!-- Service 2: Redesign -->
+                <div class="glass-card p-8 rounded-3xl relative group overflow-hidden cursor-hover flex flex-col justify-between min-h-[300px]">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-brandAccent/5 border border-white/10 flex items-center justify-center text-brandAccent mb-6 group-hover:bg-brandAccent group-hover:text-brandBg transition-all duration-500">
+                            <i class="fa-solid fa-rotate text-lg"></i>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Refonte de Site Web</span>
+                            <span x-show="lang === 'en'">Website Redesign</span>
+                        </h3>
+                        <p class="text-xs text-brandMuted leading-relaxed">
+                            <span x-show="lang === 'fr'">Modernisation complète, fluidification du parcours utilisateur et migration technique sécurisée.</span>
+                            <span x-show="lang === 'en'">Total layout modernization, frictionless conversion flows, and secure data migration.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-widest text-brandAccent uppercase mt-6 block">02 / REBIRTH</span>
+                </div>
+
+                <!-- Service 3: Landing Pages -->
+                <div class="glass-card p-8 rounded-3xl relative group overflow-hidden cursor-hover flex flex-col justify-between min-h-[300px]">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-brandPrimary/5 border border-white/10 flex items-center justify-center text-brandPrimary mb-6 group-hover:bg-brandPrimary group-hover:text-brandBg transition-all duration-500">
+                            <i class="fa-solid fa-fire-flame-curved text-lg"></i>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Landing Pages</span>
+                            <span x-show="lang === 'en'">Landing Pages</span>
+                        </h3>
+                        <p class="text-xs text-brandMuted leading-relaxed">
+                            <span x-show="lang === 'fr'">Création de pages à fort impact pour vos campagnes publicitaires, optimisées pour la performance.</span>
+                            <span x-show="lang === 'en'">High-impact single pages optimized exclusively to generate maximum customer inquiries.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-widest text-brandPrimary uppercase mt-6 block">03 / CONVERT</span>
+                </div>
+
+                <!-- Service 4: Local SEO -->
+                <div class="glass-card p-8 rounded-3xl relative group overflow-hidden cursor-hover flex flex-col justify-between min-h-[300px]">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-brandAccent/5 border border-white/10 flex items-center justify-center text-brandAccent mb-6 group-hover:bg-brandAccent group-hover:text-brandBg transition-all duration-500">
+                            <i class="fa-solid fa-map-pin text-lg"></i>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Optimisation SEO</span>
+                            <span x-show="lang === 'en'">SEO Architecture</span>
+                        </h3>
+                        <p class="text-xs text-brandMuted leading-relaxed">
+                            <span x-show="lang === 'fr'">Stratégie de mots-clés rigoureuse pour positionner votre entreprise en tête des moteurs de recherche.</span>
+                            <span x-show="lang === 'en'">Rigorous organic structure built directly into the codebase to secure top search engine rankings.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-widest text-brandAccent uppercase mt-6 block">04 / DOMINATE</span>
+                </div>
+
+                <!-- Service 5: Performance -->
+                <div class="glass-card p-8 rounded-3xl relative group overflow-hidden cursor-hover flex flex-col justify-between min-h-[300px]">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-brandAccent/5 border border-white/10 flex items-center justify-center text-brandAccent mb-6 group-hover:bg-brandAccent group-hover:text-brandBg transition-all duration-500">
+                            <i class="fa-solid fa-gauge-high text-lg"></i>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Vitesse & Optimisation</span>
+                            <span x-show="lang === 'en'">Performance Audit</span>
+                        </h3>
+                        <p class="text-xs text-brandMuted leading-relaxed">
+                            <span x-show="lang === 'fr'">Un chargement ultra-rapide sous la seconde pour optimiser le taux de rétention de vos visiteurs.</span>
+                            <span x-show="lang === 'en'">Instantaneous render performance keeping your future clients active on your site.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-widest text-brandAccent uppercase mt-6 block">05 / VELOCITY</span>
+                </div>
+
+                <!-- Service 6: Maintenance -->
+                <div class="glass-card p-8 rounded-3xl relative group overflow-hidden cursor-hover flex flex-col justify-between min-h-[300px]">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-brandPrimary/5 border border-white/10 flex items-center justify-center text-brandPrimary mb-6 group-hover:bg-brandPrimary group-hover:text-brandBg transition-all duration-500">
+                            <i class="fa-solid fa-shield text-lg"></i>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Maintenance & Suivi</span>
+                            <span x-show="lang === 'en'">Website Maintenance</span>
+                        </h3>
+                        <p class="text-xs text-brandMuted leading-relaxed">
+                            <span x-show="lang === 'fr'">Mises à jour régulières, surveillance de la sécurité et sauvegardes automatiques de votre site.</span>
+                            <span x-show="lang === 'en'">Continuous monitoring, robust security patching, and ongoing layout adjustments.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-widest text-brandPrimary uppercase mt-6 block">06 / SECURITY</span>
+                </div>
+
+                <!-- Service 7: UI/UX Design -->
+                <div class="glass-card p-8 rounded-3xl relative group overflow-hidden cursor-hover flex flex-col justify-between min-h-[300px]">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-brandPrimary/5 border border-white/10 flex items-center justify-center text-brandPrimary mb-6 group-hover:bg-brandPrimary group-hover:text-brandBg transition-all duration-500">
+                            <i class="fa-solid fa-compass text-lg"></i>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Expérience Utilisateur</span>
+                            <span x-show="lang === 'en'">User Experience</span>
+                        </h3>
+                        <p class="text-xs text-brandMuted leading-relaxed">
+                            <span x-show="lang === 'fr'">Recherche UX approfondie pour créer des interfaces fluides où la navigation devient un plaisir.</span>
+                            <span x-show="lang === 'en'">In-depth layout blueprints ensuring navigation is perfectly intuitive on every platform.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-widest text-brandPrimary uppercase mt-6 block">07 / DESIGN</span>
+                </div>
+
+                <!-- Service 8: Responsive Dev -->
+                <div class="glass-card p-8 rounded-3xl relative group overflow-hidden cursor-hover flex flex-col justify-between min-h-[300px]">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-brandAccent/5 border border-white/10 flex items-center justify-center text-brandAccent mb-6 group-hover:bg-brandAccent group-hover:text-brandBg transition-all duration-500">
+                            <i class="fa-solid fa-mobile-screen text-lg"></i>
+                        </div>
+                        <h3 class="font-display text-lg font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Développement Adaptatif</span>
+                            <span x-show="lang === 'en'">Responsive Development</span>
+                        </h3>
+                        <p class="text-xs text-brandMuted leading-relaxed">
+                            <span x-show="lang === 'fr'">Développement mobile-first assurant une ergonomie absolue sur tous les écrans du marché.</span>
+                            <span x-show="lang === 'en'">Optimized structures ensuring stunning viewport presentation on mobile and tablets.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-widest text-brandAccent uppercase mt-6 block">08 / FRAMEWORK</span>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Portfolio Section (The Aesthetic Lab) -->
+    <section id="portfolio" class="py-32 px-6 max-w-7xl mx-auto relative z-10" x-data="{ activeTaste: 'crystal' }">
+        
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-24">
+            <div>
+                <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brandAccent block mb-4">
+                    <span x-show="lang === 'fr'">L'ART DE S'ADAPTER</span>
+                    <span x-show="lang === 'en'">THE ART OF ADAPTATION</span>
+                </span>
+                <h2 class="font-display text-3xl md:text-5xl font-extrabold tracking-tight text-brandWhite">
+                    <span x-show="lang === 'fr'">Un design pour tous les goûts</span>
+                    <span x-show="lang === 'en'">Tailored to every vision</span>
+                </h2>
+            </div>
+            <p class="text-xs md:text-sm text-brandMuted max-w-sm mt-6 md:mt-0 leading-relaxed font-light">
+                <span x-show="lang === 'fr'">Nous ne croyons pas aux designs répétitifs. Découvrez nos démos interactives et changez de style pour explorer la diversité de nos univers de couleurs et d'animations fantastiques.</span>
+                <span x-show="lang === 'en'">We bypass standard repetitive styles. Toggle styles below to explore our vibrant color diversity and fantastic interactive animations built to match any brand identity.</span>
+            </p>
+        </div>
+
+        <!-- The Interactive Playground -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Visual Canvas Viewport (Left) -->
+            <div class="lg:col-span-7 glass-card p-4 md:p-8 rounded-3xl overflow-hidden relative min-h-[480px] flex flex-col justify-between transition-all duration-700">
+                
+                <!-- Master Sandbox Container -->
+                <div class="relative w-full aspect-[16/10] bg-[#070707] border border-white/5 rounded-2xl p-6 overflow-hidden flex flex-col justify-between transition-all duration-700"
+                     :class="{
+                        'border-cyan-400/35 shadow-[0_0_50px_rgba(6,182,212,0.15)]': activeTaste === 'crystal',
+                        'border-pink-500/40 shadow-[0_0_50px_rgba(236,72,153,0.2)]': activeTaste === 'festive',
+                        'border-yellow-400/35 shadow-[0_0_50px_rgba(234,179,8,0.15)]': activeTaste === 'pop'
+                     }">
+                    
+                    <!-- Sandbox Glowing Backdrop -->
+                    <div class="absolute inset-0 pointer-events-none transition-all duration-1000 opacity-80"
+                         :style="{
+                            background: activeTaste === 'crystal' 
+                                ? 'radial-gradient(circle at center, rgba(34, 211, 238, 0.2) 0%, rgba(0,0,0,0) 70%)' 
+                                : activeTaste === 'festive' 
+                                ? 'radial-gradient(circle at center, rgba(236, 72, 153, 0.25) 0%, rgba(219, 39, 119, 0.05) 40%, rgba(0,0,0,0) 75%)' 
+                                : 'radial-gradient(circle at center, rgba(234, 179, 8, 0.18) 0%, rgba(0,0,0,0) 70%)'
+                         }">
+                    </div>
+
+                    <!-- Sandbox Interactive Grid Lines / Festive Sparkles -->
+                    <div class="absolute inset-0 pointer-events-none transition-all duration-700"
+                         :class="{ 'opacity-30': activeTaste === 'crystal', 'opacity-50': activeTaste === 'festive', 'opacity-25': activeTaste === 'pop' }"
+                         :style="{
+                            backgroundImage: activeTaste === 'festive' 
+                                ? 'radial-gradient(rgba(244,63,94,0.15) 1px, transparent 1px)' 
+                                : 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
+                            backgroundSize: activeTaste === 'festive' ? '16px 16px' : '24px 24px'
+                         }">
+                    </div>
+
+                    <!-- Sandbox Header -->
+                    <div class="flex justify-between items-center z-10">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full animate-ping"
+                                  :class="{
+                                    'bg-cyan-400': activeTaste === 'crystal',
+                                    'bg-pink-500': activeTaste === 'festive',
+                                    'bg-yellow-400': activeTaste === 'pop'
+                                  }"></span>
+                            <span class="text-[9px] font-bold tracking-[0.2em] uppercase transition-colors duration-500"
+                                  :class="activeTaste === 'crystal' ? 'text-cyan-400' : activeTaste === 'festive' ? 'text-pink-400' : 'text-yellow-400'">
+                                <span x-show="lang === 'fr'">MOTEUR D'ANIMATION FANTASTIQUE</span>
+                                <span x-show="lang === 'en'">FANTASTIC ANIMATION ENGINE</span>
+                            </span>
+                        </div>
+                        <span class="text-[8px] font-mono tracking-wider uppercase"
+                              :class="activeTaste === 'crystal' ? 'text-cyan-400/70' : activeTaste === 'festive' ? 'text-pink-400/70' : 'text-yellow-400/70'"
+                              x-text="'STAGE_' + activeTaste.toUpperCase()"></span>
+                    </div>
+
+                    <!-- Sandbox Interactive Animations Centerpiece -->
+                    <div class="my-auto flex flex-col items-center justify-center relative z-10 py-8 text-center">
+                        
+                        <!-- Universe 1: Cristal Liquide / Fluid Blue (Warping shapes, floating blue spheres, liquid motions) -->
+                        <div x-show="activeTaste === 'crystal'" x-transition:enter="transition ease-out duration-700" class="space-y-6 w-full">
+                            <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
+                                <!-- Fantastic Liquid Orb (Warping border radius via animation) -->
+                                <div class="absolute inset-0 bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-500 rounded-[40%_60%_70%_30%_/_40%_50%_60%_50%] opacity-40 blur-sm animate-[spin_10s_linear_infinite] pointer-events-none"></div>
+                                <div class="absolute inset-2 bg-gradient-to-tr from-cyan-300 via-blue-400 to-indigo-400 rounded-[50%_40%_30%_70%_/_50%_60%_40%_60%] opacity-60 animate-[spin_14s_linear_infinite] pointer-events-none" style="animation-direction: reverse;"></div>
+                                
+                                <!-- Floating Interactive Centerpiece -->
+                                <div class="w-16 h-16 bg-[#090909]/90 border border-cyan-300/30 rounded-full flex items-center justify-center shadow-2xl relative z-10 hover:scale-110 transition-transform duration-500">
+                                    <i class="fa-solid fa-droplet text-cyan-300 text-lg animate-pulse"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="font-display font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-blue-400 to-indigo-300 block">Cristal Liquide / Light Blue</span>
+                                <span class="text-[9px] text-cyan-200/60 uppercase tracking-[0.4em] block mt-1">
+                                    <span x-show="lang === 'fr'">Transitions d'eau organiques, fraîcheur et pureté</span>
+                                    <span x-show="lang === 'en'">Organic fluid motion, fresh & clean luxury</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Universe 2: Néon Festif / Cosmic Party (Explosion of colors, bouncing elements, confetti simulation) -->
+                        <div x-show="activeTaste === 'festive'" x-transition:enter="transition ease-out duration-700" class="space-y-6 w-full">
+                            <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
+                                <!-- Confetti Orbits -->
+                                <div class="absolute w-2.5 h-2.5 rounded-full bg-pink-500 animate-ping" style="top: 10%; left: 20%;"></div>
+                                <div class="absolute w-2 h-2 rounded-full bg-purple-400 animate-ping" style="bottom: 15%; right: 15%; animation-delay: 0.5s;"></div>
+                                <div class="absolute w-3 h-3 rounded-full bg-yellow-400 animate-ping" style="top: 40%; right: 10%; animation-delay: 1s;"></div>
+                                
+                                <!-- Swirling neon lines -->
+                                <div class="absolute inset-0 border-2 border-dashed border-pink-500/50 rounded-full animate-spin" style="animation-duration: 6s;"></div>
+                                <div class="absolute inset-4 border border-purple-500/60 rounded-full animate-spin" style="animation-duration: 12s; animation-direction: reverse;"></div>
+                                
+                                <!-- Festive Gift Box -->
+                                <div class="w-16 h-16 bg-gradient-to-br from-pink-500 via-purple-600 to-red-500 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(236,72,153,0.5)] transform hover:rotate-12 hover:scale-110 transition-transform duration-500 cursor-hover">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-white text-xl animate-bounce"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="font-display font-extrabold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-yellow-300 uppercase tracking-tight block">Néon Festif / Dynamic Party</span>
+                                <span class="text-[9px] text-pink-300/60 uppercase tracking-widest block mt-1">
+                                    <span x-show="lang === 'fr'">Carnaval de couleurs, explosions de particules et joie</span>
+                                    <span x-show="lang === 'en'">Color explosion, particle bursts & celebratory joy</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Universe 3: Techno Pop / Vital Energy (Fresh bright yellow & lime colors, bouncy springy physics) -->
+                        <div x-show="activeTaste === 'pop'" x-transition:enter="transition ease-out duration-700" class="space-y-6 w-full">
+                            <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
+                                <!-- Bouncing geometric rings -->
+                                <div class="absolute w-32 h-16 border border-yellow-400/40 rounded-full rotate-45 animate-pulse"></div>
+                                <div class="absolute w-32 h-16 border border-lime-400/30 rounded-full -rotate-45 animate-pulse" style="animation-delay: 1s;"></div>
+                                
+                                <!-- Bouncy Core item -->
+                                <div class="w-16 h-16 bg-gradient-to-tr from-yellow-400 to-lime-400 rounded-3xl flex items-center justify-center shadow-lg hover:scale-125 hover:rotate-180 transition-all duration-700 cursor-hover">
+                                    <i class="fa-solid fa-bolt text-[#090909] text-xl font-bold"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="font-display font-extrabold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-lime-300 uppercase tracking-widest block">Techno Pop / Electro Lime</span>
+                                <span class="text-[9px] text-yellow-200/60 uppercase tracking-[0.3em] block mt-1">
+                                    <span x-show="lang === 'fr'">Physique élastique, contrastes néons, jeunesse audacieuse</span>
+                                    <span x-show="lang === 'en'">Springy physics, high contrast neons, bold creativity</span>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Sandbox Footer Info -->
+                    <div class="flex justify-between items-end border-t border-white/5 pt-4 z-10">
+                        <div class="text-left">
+                            <span class="block text-[8px] text-brandMuted uppercase tracking-wider">
+                                <span x-show="lang === 'fr'">Rendu Core Web Vitals</span>
+                                <span x-show="lang === 'en'">Performance Index</span>
+                            </span>
+                            <span class="text-xs font-bold transition-colors duration-500"
+                                  :class="activeTaste === 'crystal' ? 'text-cyan-400' : activeTaste === 'festive' ? 'text-pink-400' : 'text-yellow-400'">
+                                100% Fluid & Responsive
+                            </span>
+                        </div>
+                        <div class="flex space-x-1.5">
+                            <span class="w-2 h-2 rounded-full transition-all duration-300" :class="activeTaste === 'crystal' ? 'bg-cyan-400 w-4' : 'bg-brandMuted/20'"></span>
+                            <span class="w-2 h-2 rounded-full transition-all duration-300" :class="activeTaste === 'festive' ? 'bg-pink-500 w-4' : 'bg-brandMuted/20'"></span>
+                            <span class="w-2 h-2 rounded-full transition-all duration-300" :class="activeTaste === 'pop' ? 'bg-yellow-400 w-4' : 'bg-brandMuted/20'"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Interactive Controller Buttons Block (Right) -->
+            <div class="lg:col-span-5 flex flex-col space-y-6">
+                
+                <!-- Controller 1: Light Blue Fluid -->
+                <button type="button" @click="activeTaste = 'crystal'"
+                        :class="activeTaste === 'crystal' ? 'border-cyan-400 bg-cyan-400/5 shadow-[inset_0_1px_10px_rgba(34,211,238,0.1)]' : 'border-white/5 bg-transparent'"
+                        class="w-full text-left p-6 rounded-2xl border transition-all duration-500 cursor-hover flex flex-col justify-between space-y-3">
+                    <div class="flex justify-between items-center w-full">
+                        <span class="text-xs font-bold uppercase tracking-wider" :class="activeTaste === 'crystal' ? 'text-cyan-400' : 'text-brandMuted'">01 / OCEAN BLEU CLAIR</span>
+                        <i class="fa-solid fa-droplet text-xs text-cyan-400" x-show="activeTaste === 'crystal'"></i>
+                    </div>
+                    <h4 class="font-display text-lg font-bold text-brandWhite">
+                        <span x-show="lang === 'fr'">Cristal Liquide & Bleu Pur</span>
+                        <span x-show="lang === 'en'">Bespoke Fluid Light Blue</span>
+                    </h4>
+                    <p class="text-xs text-brandMuted leading-relaxed">
+                        <span x-show="lang === 'fr'">Conçu pour les créatifs, start-ups et portfolios modernes. Des vagues de dégradés bleu ciel, des formes liquides qui se déforment magnifiquement et une sensation d'apesanteur absolue.</span>
+                        <span x-show="lang === 'en'">Perfect for design agencies, light-themed apps, and creative hubs. Warping light blue liquid vectors, organic smooth waves, and weightless layouts.</span>
+                    </p>
+                </button>
+
+                <!-- Controller 2: Festive Neon Pink/Purple -->
+                <button type="button" @click="activeTaste = 'festive'"
+                        :class="activeTaste === 'festive' ? 'border-pink-500 bg-pink-500/5 shadow-[inset_0_1px_10px_rgba(236,72,153,0.15)]' : 'border-white/5 bg-transparent'"
+                        class="w-full text-left p-6 rounded-2xl border transition-all duration-500 cursor-hover flex flex-col justify-between space-y-3">
+                    <div class="flex justify-between items-center w-full">
+                        <span class="text-xs font-bold uppercase tracking-wider" :class="activeTaste === 'festive' ? 'text-pink-400' : 'text-brandMuted'">02 / NÉON FESTIF & COSMIQUE</span>
+                        <i class="fa-solid fa-wand-magic-sparkles text-xs text-pink-500" x-show="activeTaste === 'festive'"></i>
+                    </div>
+                    <h4 class="font-display text-lg font-bold text-brandWhite">
+                        <span x-show="lang === 'fr'">Carnaval Événementiel & Joie</span>
+                        <span x-show="lang === 'en'">Festive Sparks & Cosmic Joy</span>
+                    </h4>
+                    <p class="text-xs text-brandMuted leading-relaxed">
+                        <span x-show="lang === 'fr'">Idéal pour les marques audacieuses, événements, festivals et lancements festifs. Des explosions de couleurs dynamiques (rose néon, violet cosmique, orange), pluie de confettis virtuels et micro-mouvements jubilatoires.</span>
+                        <span x-show="lang === 'en'">Created for high-energy products, event teams, and creative festivals. Bursting multi-color particles, neon pink & purple trails, and celebratory bouncy click elements.</span>
+                    </p>
+                </button>
+
+                <!-- Controller 3: Techno Pop / Lime Yellow -->
+                <button type="button" @click="activeTaste = 'pop'"
+                        :class="activeTaste === 'pop' ? 'border-yellow-400 bg-yellow-400/5 shadow-[inset_0_1px_10px_rgba(234,179,8,0.1)]' : 'border-white/5 bg-transparent'"
+                        class="w-full text-left p-6 rounded-2xl border transition-all duration-500 cursor-hover flex flex-col justify-between space-y-3">
+                    <div class="flex justify-between items-center w-full">
+                        <span class="text-xs font-bold uppercase tracking-wider" :class="activeTaste === 'pop' ? 'text-yellow-400' : 'text-brandMuted'">03 / TECHNO POP & BOLT</span>
+                        <i class="fa-solid fa-bolt text-xs text-yellow-400" x-show="activeTaste === 'pop'"></i>
+                    </div>
+                    <h4 class="font-display text-lg font-bold text-brandWhite">
+                        <span x-show="lang === 'fr'">Énergie Lime & Jaune Électrique</span>
+                        <span x-show="lang === 'en'">Techno Pop & Bouncy Lime</span>
+                    </h4>
+                    <p class="text-xs text-brandMuted leading-relaxed">
+                        <span x-show="lang === 'fr'">Pensé pour les jeunes marques technologiques, applications mobiles et projets sportifs. Une physique élastique, des icônes rotatives et des boutons bondissants aux contrastes électrisants.</span>
+                        <span x-show="lang === 'en'">Engineered for youth brands, sports pages, and innovative modern apps. Springy layout physics, electric yellow styling cues, and interactive pop highlights.</span>
+                    </p>
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="py-32 px-6 bg-[#0a0a0a] border-y border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Header -->
+            <div class="text-center mb-24 max-w-2xl mx-auto">
+                <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brandAccent block mb-4">
+                    <span x-show="lang === 'fr'">METHODOLOGIE RATIONNELLE</span>
+                    <span x-show="lang === 'en'">OUR REFINED PROCESS</span>
+                </span>
+                <h2 class="font-display text-3xl md:text-5xl font-extrabold tracking-tight text-brandWhite">
+                    <span x-show="lang === 'fr'">Le chemin vers l'excellence</span>
+                    <span x-show="lang === 'en'">Bespoke path to digital release</span>
+                </h2>
+                <div class="w-12 h-[1px] bg-brandPrimary mx-auto mt-6"></div>
+            </div>
+
+            <!-- Steps Panel -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Steps Toggles Left Panel -->
+                <div class="lg:col-span-5 space-y-4">
+                    <button 
+                        @click="activeProcessStep = 1" 
+                        :class="activeProcessStep === 1 ? 'border-brandPrimary bg-brandPrimary/5' : 'border-white/5 bg-transparent'"
+                        class="w-full text-left p-6 rounded-2xl border transition-all duration-300 flex items-center space-x-6 cursor-hover"
+                    >
+                        <span class="text-2xl font-display font-extrabold text-brandPrimary/30" :class="activeProcessStep === 1 && 'text-brandPrimary'">01</span>
+                        <div>
+                            <h4 class="font-bold text-brandWhite text-sm">
+                                <span x-show="lang === 'fr'">Découverte & Stratégie</span>
+                                <span x-show="lang === 'en'">Discovery & Strategy</span>
+                            </h4>
+                            <span class="text-[10px] text-brandMuted uppercase tracking-wider">Concept Blueprint</span>
+                        </div>
+                    </button>
+
+                    <button 
+                        @click="activeProcessStep = 2" 
+                        :class="activeProcessStep === 2 ? 'border-brandPrimary bg-brandPrimary/5' : 'border-white/5 bg-transparent'"
+                        class="w-full text-left p-6 rounded-2xl border transition-all duration-300 flex items-center space-x-6 cursor-hover"
+                    >
+                        <span class="text-2xl font-display font-extrabold text-brandPrimary/30" :class="activeProcessStep === 2 && 'text-brandPrimary'">02</span>
+                        <div>
+                            <h4 class="font-bold text-brandWhite text-sm">
+                                <span x-show="lang === 'fr'">Design Visuel Haute Fidélité</span>
+                                <span x-show="lang === 'en'">High-Fidelity UI Design</span>
+                            </h4>
+                            <span class="text-[10px] text-brandMuted uppercase tracking-wider">Art Direction</span>
+                        </div>
+                    </button>
+
+                    <button 
+                        @click="activeProcessStep = 3" 
+                        :class="activeProcessStep === 3 ? 'border-brandPrimary bg-brandPrimary/5' : 'border-white/5 bg-transparent'"
+                        class="w-full text-left p-6 rounded-2xl border transition-all duration-300 flex items-center space-x-6 cursor-hover"
+                    >
+                        <span class="text-2xl font-display font-extrabold text-brandPrimary/30" :class="activeProcessStep === 3 && 'text-brandPrimary'">03</span>
+                        <div>
+                            <h4 class="font-bold text-brandWhite text-sm">
+                                <span x-show="lang === 'fr'">Développement Propre & Rapide</span>
+                                <span x-show="lang === 'en'">Clean-Code Development</span>
+                            </h4>
+                            <span class="text-[10px] text-brandMuted uppercase tracking-wider">Engineering</span>
+                        </div>
+                    </button>
+
+                    <button 
+                        @click="activeProcessStep = 4" 
+                        :class="activeProcessStep === 4 ? 'border-brandPrimary bg-brandPrimary/5' : 'border-white/5 bg-transparent'"
+                        class="w-full text-left p-6 rounded-2xl border transition-all duration-300 flex items-center space-x-6 cursor-hover"
+                    >
+                        <span class="text-2xl font-display font-extrabold text-brandPrimary/30" :class="activeProcessStep === 4 && 'text-brandPrimary'">04</span>
+                        <div>
+                            <h4 class="font-bold text-brandWhite text-sm">
+                                <span x-show="lang === 'fr'">Optimisations & Lancement</span>
+                                <span x-show="lang === 'en'">Launch & Validation</span>
+                            </h4>
+                            <span class="text-[10px] text-brandMuted uppercase tracking-wider">Quality Audit</span>
+                        </div>
+                    </button>
+
+                    <button 
+                        @click="activeProcessStep = 5" 
+                        :class="activeProcessStep === 5 ? 'border-brandPrimary bg-brandPrimary/5' : 'border-white/5 bg-transparent'"
+                        class="w-full text-left p-6 rounded-2xl border transition-all duration-300 flex items-center space-x-6 cursor-hover"
+                    >
+                        <span class="text-2xl font-display font-extrabold text-brandPrimary/30" :class="activeProcessStep === 5 && 'text-brandPrimary'">05</span>
+                        <div>
+                            <h4 class="font-bold text-brandWhite text-sm">
+                                <span x-show="lang === 'fr'">Suivi & Croissance Globale</span>
+                                <span x-show="lang === 'en'">Growth & Scaling</span>
+                            </h4>
+                            <span class="text-[10px] text-brandMuted uppercase tracking-wider">Continuous Iterations</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Step Descriptions Details Right Panel -->
+                <div class="lg:col-span-7 glass-card p-10 rounded-3xl min-h-[380px] flex flex-col justify-between">
+                    
+                    <!-- Detail 1 -->
+                    <div x-show="activeProcessStep === 1" x-transition.opacity.duration.300ms class="space-y-6">
+                        <span class="text-xs font-bold tracking-widest text-brandPrimary uppercase">ÉTAPE 1 • BLUEPRINT</span>
+                        <h3 class="font-display text-xl md:text-2xl font-extrabold text-brandWhite">
+                            <span x-show="lang === 'fr'">Comprendre vos objectifs de marque et votre cible.</span>
+                            <span x-show="lang === 'en'">Understanding your brand metrics & target audience.</span>
+                        </h3>
+                        <p class="text-brandMuted text-sm font-light leading-relaxed">
+                            <span x-show="lang === 'fr'">Nous débutons chaque projet par une phase stratégique approfondie. Nous analysons votre univers concurrentiel et définissons l'architecture de navigation pour concevoir un site sur-mesure orienté vers la conversion maximale.</span>
+                            <span x-show="lang === 'en'">We start with a complete strategic deep-dive. We review competitor frameworks and plot an optimal layout architecture designed to maximize user engagement and future acquisitions.</span>
+                        </p>
+                    </div>
+
+                    <!-- Detail 2 -->
+                    <div x-show="activeProcessStep === 2" x-transition.opacity.duration.300ms class="space-y-6">
+                        <span class="text-xs font-bold tracking-widest text-brandPrimary uppercase">ÉTAPE 2 • DIRECTION ARTISTIQUE</span>
+                        <h3 class="font-display text-xl md:text-2xl font-extrabold text-brandWhite">
+                            <span x-show="lang === 'fr'">Créer une maquette exclusive et captivante.</span>
+                            <span x-show="lang === 'en'">Designing spectacular tailor-made interfaces.</span>
+                        </h3>
+                        <p class="text-brandMuted text-sm font-light leading-relaxed">
+                            <span x-show="lang === 'fr'">Zéro modèle générique. Nous concevons une identité raffinée adaptée à vos besoins. Des typographies précises, des contrastes travaillés et un univers graphique qui capte l'attention dès les premières secondes.</span>
+                            <span x-show="lang === 'en'">Absolutely zero pre-made structures. We construct an elegant digital environment custom-made for your users. Sleek grid alignments, striking typography combinations, and visual balance.</span>
+                        </p>
+                    </div>
+
+                    <!-- Detail 3 -->
+                    <div x-show="activeProcessStep === 3" x-transition.opacity.duration.300ms class="space-y-6">
+                        <span class="text-xs font-bold tracking-widest text-brandPrimary uppercase">ÉTAPE 3 • ARCHITECTURE DU CODE</span>
+                        <h3 class="font-display text-xl md:text-2xl font-extrabold text-brandWhite">
+                            <span x-show="lang === 'fr'">Programmer avec une rigueur absolue pour un rendu instantané.</span>
+                            <span x-show="lang === 'en'">Clean codebase development for extreme page rendering.</span>
+                        </h3>
+                        <p class="text-brandMuted text-sm font-light leading-relaxed">
+                            <span x-show="lang === 'fr'">La vitesse de votre site est notre priorité absolue. Nous écrivons un code propre, sans frameworks inutiles, pour garantir d'excellentes performances d'affichage sur tous les navigateurs.</span>
+                            <span x-show="lang === 'en'">Optimal site speed remains our strict target. Every block of layout instruction is handcoded without heavy visual frameworks to secure exceptional Core Web Vitals on mobiles.</span>
+                        </p>
+                    </div>
+
+                    <!-- Detail 4 -->
+                    <div x-show="activeProcessStep === 4" x-transition.opacity.duration.300ms class="space-y-6">
+                        <span class="text-xs font-bold tracking-widest text-brandPrimary uppercase">ÉTAPE 4 • VALIDATION AUDIT</span>
+                        <h3 class="font-display text-xl md:text-2xl font-extrabold text-brandWhite">
+                            <span x-show="lang === 'fr'">Optimisations techniques poussées avant la mise en ligne.</span>
+                            <span x-show="lang === 'en'">Meticulous testing, speed validation, and live deployment.</span>
+                        </h3>
+                        <p class="text-brandMuted text-sm font-light leading-relaxed">
+                            <span x-show="lang === 'fr'">Avant le lancement, nous réalisons des audits approfondis : vérification responsive, configuration optimale du référencement et tests de sécurité pour garantir un départ parfait.</span>
+                            <span x-show="lang === 'en'">Prior to live release, we initiate comprehensive checks: fully responsive layout calibrations, strict local SEO indexing, and database security protocols to ensure a stellar launch.</span>
+                        </p>
+                    </div>
+
+                    <!-- Detail 5 -->
+                    <div x-show="activeProcessStep === 5" x-transition.opacity.duration.300ms class="space-y-6">
+                        <span class="text-xs font-bold tracking-widest text-brandPrimary uppercase">ÉTAPE 5 • ÉVOLUTION</span>
+                        <h3 class="font-display text-xl md:text-2xl font-extrabold text-brandWhite">
+                            <span x-show="lang === 'fr'">Analyse des performances et adaptation continue.</span>
+                            <span x-show="lang === 'en'">Post-launch scaling, telemetry audits, and data tweaks.</span>
+                        </h3>
+                        <p class="text-brandMuted text-sm font-light leading-relaxed">
+                            <span x-show="lang === 'fr'">Votre site évolue en fonction de votre croissance. Nous surveillons les performances et ajustons l'interface pour suivre l'évolution des tendances de navigation de vos utilisateurs.</span>
+                            <span x-show="lang === 'en'">Your platform evolves as you scale. We perform recurrent speed updates and configure visual refinements to continuously align with your active audience demands.</span>
+                        </p>
+                    </div>
+
+                    <!-- Shared Process CTA -->
+                    <div class="pt-8 border-t border-white/5 flex items-center justify-between">
+                        <span class="text-xs text-brandMuted italic">
+                            <span x-show="lang === 'fr'">Zéro intermédiaire, uniquement des experts.</span>
+                            <span x-show="lang === 'en'">Direct structural access, zero middleman loops.</span>
+                        </span>
+                        <a href="#contact" class="text-xs font-bold tracking-wider text-brandPrimary uppercase hover:underline cursor-hover">
+                            <span x-show="lang === 'fr'">Commencer l'étape 1</span>
+                            <span x-show="lang === 'en'">Initiate Phase 1</span>
+                            <i class="fa-solid fa-arrow-right ml-2 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section id="why-us" class="py-32 px-6 max-w-7xl mx-auto relative z-10">
+        
+        <!-- Header -->
+        <div class="text-center mb-24 max-w-2xl mx-auto">
+            <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brandAccent block mb-4">
+                <span x-show="lang === 'fr'">L'ENGAGEMENT APEX</span>
+                <span x-show="lang === 'en'">THE APEX ADVANTAGE</span>
+            </span>
+            <h2 class="font-display text-3xl md:text-5xl font-extrabold tracking-tight text-brandWhite">
+                <span x-show="lang === 'fr'">Pourquoi choisir notre studio ?</span>
+                <span x-show="lang === 'en'">Why work with Apex Studio?</span>
+            </h2>
+            <div class="w-12 h-[1px] bg-brandPrimary mx-auto mt-6"></div>
+        </div>
+
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            
+            <!-- Box 1: Design (Large) -->
+            <div class="glass-card p-8 rounded-3xl md:col-span-8 flex flex-col justify-between group cursor-hover min-h-[250px]">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h4 class="font-display text-xl font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Un design d'exception axé sur la clarté</span>
+                            <span x-show="lang === 'en'">Prestige-focused visual layouts</span>
+                        </h4>
+                        <p class="text-brandMuted text-xs leading-relaxed max-w-xl">
+                            <span x-show="lang === 'fr'">Nous pensons nos interfaces pour asseoir immédiatement l'autorité de votre marque. Des grilles épurées et des choix typographiques étudiés pour asseoir votre réputation.</span>
+                            <span x-show="lang === 'en'">We construct experiences designed to frame your authority. Sleek grids, calculated spacing, and exquisite typography configurations built for clarity.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] text-brandPrimary/60 font-mono">/ CLARITY</span>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-8">
+                    <span class="px-3 py-1 bg-[#141414] rounded text-[10px] text-brandWhite font-medium">100% SUR-MESURE</span>
+                    <span class="px-3 py-1 bg-[#141414] rounded text-[10px] text-brandWhite font-medium">DESIGN INTUITIF</span>
+                    <span class="px-3 py-1 bg-[#141414] rounded text-[10px] text-brandWhite font-medium">GRILLE ÉPURÉE</span>
+                </div>
+            </div>
+
+            <!-- Box 2: Speed (Small) -->
+            <div class="glass-card p-8 rounded-3xl md:col-span-4 flex flex-col justify-between group cursor-hover min-h-[250px]">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="font-display text-xl font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Délais express</span>
+                            <span x-show="lang === 'en'">Express delivery</span>
+                        </h4>
+                        <p class="text-brandMuted text-xs leading-relaxed">
+                            <span x-show="lang === 'fr'">Une exécution technique et de design de pointe pour garantir le lancement immédiat de votre activité.</span>
+                            <span x-show="lang === 'en'">Stellar technical execution optimized to guarantee immediate live access to your audience.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] text-brandAccent/60 font-mono">/ SPEED</span>
+                </div>
+                <div class="flex items-center space-x-2 text-brandAccent mt-8">
+                    <i class="fa-solid fa-bolt text-sm"></i>
+                    <span class="text-xs font-bold tracking-wider">
+                        <span x-show="lang === 'fr'">PRÊT EN 24H - 48H</span>
+                        <span x-show="lang === 'en'">READY IN 24H - 48H</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Box 3: Performance (Small) -->
+            <div class="glass-card p-8 rounded-3xl md:col-span-4 flex flex-col justify-between group cursor-hover min-h-[250px]">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="font-display text-xl font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Optimisé mobile</span>
+                            <span x-show="lang === 'en'">Mobile-first focus</span>
+                        </h4>
+                        <p class="text-brandMuted text-xs leading-relaxed">
+                            <span x-show="lang === 'fr'">Conçu spécifiquement pour une utilisation fluide et naturelle sur les écrans tactiles.</span>
+                            <span x-show="lang === 'en'">Engineered specifically to render flawlessly across modern smartphones and tablets.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] text-brandAccent/60 font-mono">/ MOBILITY</span>
+                </div>
+                <span class="text-2xl font-display font-extrabold text-brandPrimary tracking-wider mt-8">99% CORE SCORE</span>
+            </div>
+
+            <!-- Box 4: SEO & Modern Stack (Large) -->
+            <div class="glass-card p-8 rounded-3xl md:col-span-8 flex flex-col justify-between group cursor-hover min-h-[250px]">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="font-display text-xl font-bold text-brandWhite mb-3">
+                            <span x-show="lang === 'fr'">Technologies modernes & code propre</span>
+                            <span x-show="lang === 'en'">Modern stack & clean coding</span>
+                        </h4>
+                        <p class="text-brandMuted text-xs leading-relaxed max-w-xl">
+                            <span x-show="lang === 'fr'">Nous n'utilisons pas d'éditeurs de pages visuels lourds. Nous programmons chaque ligne de code de manière propre, garantissant la pérennité technique de votre investissement.</span>
+                            <span x-show="lang === 'en'">We avoid heavy drag-and-drop engines and slow database architectures. We handcraft lightweight code to optimize safety, longevity, and ranking potentials.</span>
+                        </p>
+                    </div>
+                    <span class="text-[10px] text-brandPrimary/60 font-mono">/ SYSTEM</span>
+                </div>
+                <div class="flex space-x-4 text-brandWhite/40 mt-8 text-lg">
+                    <i class="fa-brands fa-js"></i>
+                    <i class="fa-brands fa-html5"></i>
+                    <i class="fa-brands fa-css3-alt"></i>
+                    <i class="fa-brands fa-node-js"></i>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-32 px-6 max-w-4xl mx-auto relative z-10" x-data="{ openFaq: 0 }">
+        
+        <!-- Header -->
+        <div class="text-center mb-24">
+            <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brandAccent block mb-4">
+                <span x-show="lang === 'fr'">FAQ / GUIDE D'ACCOMPAGNEMENT</span>
+                <span x-show="lang === 'en'">FAQ / BLUEPRINTS</span>
+            </span>
+            <h2 class="font-display text-3xl md:text-5xl font-extrabold tracking-tight text-brandWhite">
+                <span x-show="lang === 'fr'">Questions fréquentes</span>
+                <span x-show="lang === 'en'">Frequently asked questions</span>
+            </h2>
+            <div class="w-12 h-[1px] bg-brandPrimary mx-auto mt-6"></div>
+        </div>
+
+        <!-- FAQ Container -->
+        <div class="space-y-4">
+            
+            <!-- Accordion 1 (What is a Landing Page vs Full Site) -->
+            <div class="glass-card rounded-2xl overflow-hidden border-brandPrimary/35 shadow-[0_0_20px_rgba(233,223,200,0.1)]">
+                <button 
+                    @click="openFaq = (openFaq === 1 ? 0 : 1)" 
+                    class="w-full text-left p-6 flex justify-between items-center focus:outline-none cursor-hover"
+                >
+                    <span class="font-display font-bold text-sm md:text-base text-brandPrimary">
+                        <span x-show="lang === 'fr'">Quelle est la différence entre une "Landing Page" et un "Site Complet" ?</span>
+                        <span x-show="lang === 'en'">What is the difference between a "Landing Page" and a "Full Site"?</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down text-brandPrimary transition-transform duration-300" :class="openFaq === 1 && 'rotate-180'"></i>
+                </button>
+                <div x-show="openFaq === 1" x-collapse class="px-6 pb-6 border-t border-white/5 pt-4">
+                    <div class="text-xs md:text-sm text-brandMuted leading-relaxed font-light space-y-4">
+                        <div>
+                            <strong class="text-brandWhite block mb-1">
+                                <span x-show="lang === 'fr'">1. Landing Page (Page unique optimisée) :</span>
+                                <span x-show="lang === 'en'">1. Landing Page (Single high-converting page):</span>
+                            </strong>
+                            <span x-show="lang === 'fr'">C'est un site web d'une seule page structurée pour aller droit au but. Elle présente une seule offre, un produit, ou un service précis, et guide directement le visiteur vers une action (vous contacter, réserver ou acheter). Elle est idéale pour démarrer rapidement, lancer un projet ou pour vos campagnes publicitaires.</span>
+                            <span x-show="lang === 'en'">It's a one-page website designed to get straight to the point. It focuses on a single offer, product, or specific service, driving the visitor to take immediate action (contact, book, or buy). It is perfect for fast launches, new activities, or ad campaigns.</span>
+                        </div>
+                        <div>
+                            <strong class="text-brandWhite block mb-1">
+                                <span x-show="lang === 'fr'">2. Site Complet (Multi-pages traditionnel) :</span>
+                                <span x-show="lang === 'en'">2. Full Site (Traditional multi-page):</span>
+                            </strong>
+                            <span x-show="lang === 'fr'">Il est composé de plusieurs pages distinctes (Accueil, À Propos, Services, Réalisations, Contact...). Il est indispensable si vous devez présenter une activité complexe, structurer beaucoup d'informations et optimiser votre référencement naturel Google sur une multitude de mots-clés différents.</span>
+                            <span x-show="lang === 'en'">It consists of several separate pages (Home, About, Services, Gallery, Contact...). It is essential if you need to present a complex business model, organize large volumes of information, and optimize your Google search visibility on multiple target terms.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accordion 2 -->
+            <div class="glass-card rounded-2xl overflow-hidden">
+                <button 
+                    @click="openFaq = (openFaq === 2 ? 0 : 2)" 
+                    class="w-full text-left p-6 flex justify-between items-center focus:outline-none cursor-hover"
+                >
+                    <span class="font-display font-bold text-sm md:text-base text-brandWhite">
+                        <span x-show="lang === 'fr'">Qui peut faire appel à Apex Studio pour un site web ?</span>
+                        <span x-show="lang === 'en'">Who can request a website with Apex Studio?</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down text-brandPrimary transition-transform duration-300" :class="openFaq === 2 && 'rotate-180'"></i>
+                </button>
+                <div x-show="openFaq === 2" x-collapse class="px-6 pb-6 border-t border-white/5 pt-4">
+                    <p class="text-xs md:text-sm text-brandMuted leading-relaxed font-light">
+                        <span x-show="lang === 'fr'">Absolument tout le monde. Notre studio est conçu pour accompagner tous types de projets numériques : que vous soyez créatif, indépendant, gérant d'une boutique en ligne, fondateur d'une startup, ou responsable d'une entreprise établie. Nous adaptons la direction artistique et l'architecture technique à vos besoins spécifiques.</span>
+                        <span x-show="lang === 'en'">Absolutely anyone. Our studio is architected to assist any form of digital project: whether you are an artist, a freelancer, an e-commerce retail owner, an ambitious startup founder, or a mature enterprise team. We scale our design direction and technical structures to perfectly fit your precise requirements.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Accordion 3 -->
+            <div class="glass-card rounded-2xl overflow-hidden">
+                <button 
+                    @click="openFaq = (openFaq === 3 ? 0 : 3)" 
+                    class="w-full text-left p-6 flex justify-between items-center focus:outline-none cursor-hover"
+                >
+                    <span class="font-display font-bold text-sm md:text-base text-brandWhite">
+                        <span x-show="lang === 'fr'">Combien de temps faut-il pour concevoir un site internet complet ?</span>
+                        <span x-show="lang === 'en'">How long does it take to deploy a premium website?</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down text-brandPrimary transition-transform duration-300" :class="openFaq === 3 && 'rotate-180'"></i>
+                </button>
+                <div x-show="openFaq === 3" x-collapse class="px-6 pb-6 border-t border-white/5 pt-4">
+                    <p class="text-xs md:text-sm text-brandMuted leading-relaxed font-light">
+                        <span x-show="lang === 'fr'">Votre site est conçu et entièrement configuré en seulement 24h à 48h. Grâce à notre méthodologie d'ingénierie agile sans intermédiaire, nous assurons un développement ultra-rapide et l'optimisation SEO de votre plateforme sans aucun compromis sur la qualité.</span>
+                        <span x-show="lang === 'en'">Your platform is fully handcrafted and ready in 24 to 48 hours. Thanks to our agile, direct coding framework, we secure record-time execution, responsive alignment, and basic SEO structures with no visual compromises.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Accordion 4 -->
+            <div class="glass-card rounded-2xl overflow-hidden">
+                <button 
+                    @click="openFaq = (openFaq === 4 ? 0 : 4)" 
+                    class="w-full text-left p-6 flex justify-between items-center focus:outline-none cursor-hover"
+                >
+                    <span class="font-display font-bold text-sm md:text-base text-brandWhite">
+                        <span x-show="lang === 'fr'">Mon site actuel restera-t-il accessible pendant le développement du nouveau ?</span>
+                        <span x-show="lang === 'en'">Will my current website stay online during development?</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down text-brandPrimary transition-transform duration-300" :class="openFaq === 4 && 'rotate-180'"></i>
+                </button>
+                <div x-show="openFaq === 4" x-collapse class="px-6 pb-6 border-t border-white/5 pt-4">
+                    <p class="text-xs md:text-sm text-brandMuted leading-relaxed font-light">
+                        <span x-show="lang === 'fr'">Oui, absolument. Nous effectuons l'ensemble des développements et des maquettes graphiques sur notre serveur de staging privé et sécurisé. Votre plateforme actuelle reste active en continu pour vos visiteurs. Le changement définitif de nom de domaine se fait de manière instantanée lors du lancement officiel.</span>
+                        <span x-show="lang === 'en'">Yes, completely. All styling proposals and code modifications occur behind the scenes on private servers. Your active site stays online for your visitors. The final transition to the new domain takes less than 5 seconds at release time.</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Accordion 5 (Customization & Independence of Colors/Design) -->
+            <div class="glass-card rounded-2xl overflow-hidden border-brandAccent/25 shadow-[0_0_20px_rgba(168,199,161,0.05)]">
+                <button 
+                    @click="openFaq = (openFaq === 5 ? 0 : 5)" 
+                    class="w-full text-left p-6 flex justify-between items-center focus:outline-none cursor-hover"
+                >
+                    <span class="font-display font-bold text-sm md:text-base text-brandWhite">
+                        <span x-show="lang === 'fr'">Puis-je choisir mon propre style et mes couleurs ? Mon site ressemblera-t-il au vôtre ?</span>
+                        <span x-show="lang === 'en'">Can I choose my own colors and style? Will my site look like yours?</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down text-brandPrimary transition-transform duration-300" :class="openFaq === 5 && 'rotate-180'"></i>
+                </button>
+                <div x-show="openFaq === 5" x-collapse class="px-6 pb-6 border-t border-white/5 pt-4">
+                    <p class="text-xs md:text-sm text-brandMuted leading-relaxed font-light">
+                        <span x-show="lang === 'fr'"><strong>Liberté visuelle totale :</strong> Oui, tout à fait. Chaque site que nous concevons est une œuvre unique, créée à 100 % sur-mesure pour s'adapter à vos préférences, à votre charte graphique et à la modernité de votre activité. Le style sombre et minimaliste de notre site (Apex Studio) est notre propre signature de marque. Votre futur site n'aura <strong>strictement aucun lien visuel</strong> avec le nôtre au niveau des couleurs ou de l'interface (sauf demande expresse de votre part). Nous réalisons l'ambiance exacte dont vous avez besoin : lumineuse, bleu cristal, colorée, sobre, pastel ou festive.</span>
+                        <span x-show="lang === 'en'"><strong>Absolute visual freedom:</strong> Yes, absolutely. Every project we design is a unique, 100% bespoke creation customized to fit your preferences, brand guidelines, and modern industry aesthetics. The dark, minimalist style of our website (Apex Studio) is our own brand signature. Your future platform will have <strong>absolutely no visual connection</strong> to ours in terms of color schemes or UI layouts (unless you specifically request it). We construct the exact visual universe you need: bright, light blue, colorful, clean, pastel, or highly energetic.</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact & Planner Section -->
+    <section id="contact" class="py-32 px-6 bg-[#0a0a0a] border-t border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            
+            <!-- Left Panel Information & Interactive Planner Tool -->
+            <div class="lg:col-span-5 space-y-12">
+                <div>
+                    <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brandAccent block mb-4">
+                        <span x-show="lang === 'fr'">STRUCTUREZ VOTRE CAHIER DES CHARGES</span>
+                        <span x-show="lang === 'en'">STRUCTURE YOUR PROJECT SCOPE</span>
+                    </span>
+                    <h2 class="font-display text-4xl font-extrabold tracking-tight text-brandWhite mb-6">
+                        <span x-show="lang === 'fr'">Bâtissons quelque chose d'exceptionnel.</span>
+                        <span x-show="lang === 'en'">Let's build something beautiful.</span>
+                    </h2>
+                    <p class="text-brandMuted font-light text-sm leading-relaxed">
+                        <span x-show="lang === 'fr'">Utilisez notre estimateur dynamique pour définir instantanément les contours de votre projet.</span>
+                        <span x-show="lang === 'en'">Select your options below to easily formulate your strategic blueprint in real time.</span>
+                    </p>
+                </div>
+
+                <!-- Custom Interactive Planner Box -->
+                <div class="glass-card p-8 rounded-3xl space-y-6">
+                    <span class="text-[10px] font-bold tracking-widest text-brandPrimary uppercase block border-b border-white/5 pb-4">
+                        <span x-show="lang === 'fr'">ESTIMATEUR DE PROJET APS</span>
+                        <span x-show="lang === 'en'">APS PROJECT CONFIGURATOR</span>
+                    </span>
+
+                    <!-- Target Sector Selection -->
+                    <div class="space-y-3">
+                        <span class="text-xs font-semibold text-brandWhite uppercase tracking-wider block">
+                            <span x-show="lang === 'fr'">1. Votre profil / Activité :</span>
+                            <span x-show="lang === 'en'">1. Your profile / Business type:</span>
+                        </span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" @click="plannerClient = 'ecom'; plannerSubOption = 'mode'" :class="plannerClient === 'ecom' ? 'bg-brandPrimary text-brandBg font-bold' : 'bg-brandBg border border-white/10 text-brandWhite/80 hover:text-brandWhite'" class="py-2.5 rounded-xl text-xs transition-all duration-300 cursor-hover">
+                                Boutique / E-com
+                            </button>
+                            <button type="button" @click="plannerClient = 'physique'; plannerSubOption = 'auto'" :class="plannerClient === 'physique' ? 'bg-brandPrimary text-brandBg font-bold' : 'bg-brandBg border border-white/10 text-brandWhite/80 hover:text-brandWhite'" class="py-2.5 rounded-xl text-xs transition-all duration-300 cursor-hover">
+                                <span x-show="lang === 'fr'">Entreprise Physique</span>
+                                <span x-show="lang === 'en'">Physical Business</span>
+                            </button>
+                            <button type="button" @click="plannerClient = 'portfolio'; plannerSubOption = 'art'" :class="plannerClient === 'portfolio' ? 'bg-brandPrimary text-brandBg font-bold' : 'bg-brandBg border border-white/10 text-brandWhite/80 hover:text-brandWhite'" class="py-2.5 rounded-xl text-xs transition-all duration-300 cursor-hover">
+                                Portfolio Website
+                            </button>
+                            <button type="button" @click="plannerClient = 'digital'; plannerSubOption = 'saas'" :class="plannerClient === 'digital' ? 'bg-brandPrimary text-brandBg font-bold' : 'bg-brandBg border border-white/10 text-brandWhite/80 hover:text-brandWhite'" class="py-2.5 rounded-xl text-xs transition-all duration-300 cursor-hover">
+                                Digital
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Sub-options based on Selected Profile -->
+                    <div class="space-y-3 pt-2">
+                        <span class="text-xs font-semibold text-brandWhite uppercase tracking-wider block">
+                            <span x-show="lang === 'fr'">2. Votre spécialité :</span>
+                            <span x-show="lang === 'en'">2. Your specialty:</span>
+                        </span>
+                        
+                        <!-- E-com sub-options -->
+                        <div x-show="plannerClient === 'ecom'" class="grid grid-cols-1 gap-2" x-transition>
+                            <button type="button" @click="plannerSubOption = 'mode'" :class="plannerSubOption === 'mode' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Mode & Prêt-à-porter / Fashion</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'mode'"></i>
+                            </button>
+                            <button type="button" @click="plannerSubOption = 'food'" :class="plannerSubOption === 'food' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Alimentation & Restauration / Food</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'food'"></i>
+                            </button>
+                            <button type="button" @click="plannerSubOption = 'cosm'" :class="plannerSubOption === 'cosm' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Cosmétique & Beauté / Cosmetics</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'cosm'"></i>
+                            </button>
+                        </div>
+
+                        <!-- Physique sub-options -->
+                        <div x-show="plannerClient === 'physique'" class="grid grid-cols-1 gap-2" x-transition>
+                            <button type="button" @click="plannerSubOption = 'auto'" :class="plannerSubOption === 'auto' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Automobile & Garage / Automotive</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'auto'"></i>
+                            </button>
+                            <button type="button" @click="plannerSubOption = 'artisanat'" :class="plannerSubOption === 'artisanat' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Artisanat & BTP / Construction</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'artisanat'"></i>
+                            </button>
+                            <button type="button" @click="plannerSubOption = 'soins'" :class="plannerSubOption === 'soins' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Soins & Corporel / Body & Wellness</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'soins'"></i>
+                            </button>
+                            <button type="button" @click="plannerSubOption = 'medical'" :class="plannerSubOption === 'medical' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Cabinet Médical / Medical Practice</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'medical'"></i>
+                            </button>
+                        </div>
+
+                        <!-- Portfolio sub-options -->
+                        <div x-show="plannerClient === 'portfolio'" class="grid grid-cols-1 gap-2" x-transition>
+                            <button type="button" @click="plannerSubOption = 'art'" :class="plannerSubOption === 'art' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Photographie & Art / Photography</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'art'"></i>
+                            </button>
+                            <button type="button" @click="plannerSubOption = 'design'" :class="plannerSubOption === 'design' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Architecture & Design</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'design'"></i>
+                            </button>
+                            <button type="button" @click="plannerSubOption = 'freelance'" :class="plannerSubOption === 'freelance' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Freelance & Conseil / Consulting</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'freelance'"></i>
+                            </button>
+                        </div>
+
+                        <!-- Digital sub-options -->
+                        <div x-show="plannerClient === 'digital'" class="grid grid-cols-1 gap-2" x-transition>
+                            <button type="button" @click="plannerSubOption = 'saas'" :class="plannerSubOption === 'saas' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>SaaS & Logiciel / Tech Product</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'saas'"></i>
+                            </button>
+                            <button type="button" @click="plannerSubOption = 'agency'" :class="plannerSubOption === 'agency' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Agence & Services / Agency</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'agency'"></i>
+                            </button>
+                            <button type="button" @click="plannerSubOption = 'creator'" :class="plannerSubOption === 'creator' ? 'bg-brandAccent text-brandBg font-bold' : 'bg-[#121212] border border-white/10 text-brandWhite/80 hover:text-brandAccent'" class="py-2.5 px-4 rounded-xl text-xs text-left transition-all duration-300 cursor-hover flex justify-between items-center">
+                                <span>Créateur de Contenu / Content Creator</span>
+                                <i class="fa-solid fa-check text-[10px]" x-show="plannerSubOption === 'creator'"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Deliverable Scope Selector -->
+                    <div class="space-y-3 pt-2">
+                        <span class="text-xs font-semibold text-brandWhite uppercase tracking-wider block">
+                            <span x-show="lang === 'fr'">3. Type de site souhaité :</span>
+                            <span x-show="lang === 'en'">3. Desired format:</span>
+                        </span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" @click="plannerService = 'landing'" :class="plannerService === 'landing' ? 'bg-white/10 border-white/30 text-brandWhite' : 'border-white/10 text-brandWhite/60'" class="border py-2 rounded-xl text-xs transition-all duration-300 cursor-hover">
+                                Landing Page
+                            </button>
+                            <button type="button" @click="plannerService = 'complete'" :class="plannerService === 'complete' ? 'bg-white/10 border-white/30 text-brandWhite' : 'border-white/10 text-brandWhite/60'" class="border py-2 rounded-xl text-xs transition-all duration-300 cursor-hover">
+                                <span x-show="lang === 'fr'">Site Complet</span>
+                                <span x-show="lang === 'en'">Full Site</span>
+                            </button>
+                        </div>
+
+                        <!-- Dynamic Explanation Box (Bilingual Tooltip) -->
+                        <div class="mt-4 p-4 bg-brandBg border border-white/5 rounded-2xl transition-all duration-300">
+                            <!-- Landing Page Explanation -->
+                            <div x-show="plannerService === 'landing'" x-transition class="space-y-2">
+                                <span class="text-[9px] font-bold text-brandAccent uppercase tracking-widest block">Format : Landing Page (Mono-page)</span>
+                                <p class="text-[11px] text-brandMuted leading-relaxed">
+                                    <span x-show="lang === 'fr'">Un site composé d'<strong>une seule page unique et ultra-optimisée</strong>. Idéal pour présenter une offre précise ou se lancer rapidement en captant directement l'attention de l'utilisateur.</span>
+                                    <span x-show="lang === 'en'">A website consisting of <strong>a single, highly-optimized page</strong>. Ideal for focusing on a single product/service and launching quickly to collect high-quality leads.</span>
+                                </p>
+                            </div>
+                            
+                            <!-- Full Site Explanation -->
+                            <div x-show="plannerService === 'complete'" x-transition class="space-y-2">
+                                <span class="text-[9px] font-bold text-brandAccent uppercase tracking-widest block">Format : Site Complet (Multi-pages)</span>
+                                <p class="text-[11px] text-brandMuted leading-relaxed">
+                                    <span x-show="lang === 'fr'">Une structure complète avec <strong>plusieurs pages distinctes</strong> (Accueil, Services, À Propos, Contact...). Indispensable pour asseoir l'autorité d'une marque et optimiser votre présence globale Google.</span>
+                                    <span x-show="lang === 'en'">A traditional structure featuring <strong>multiple standalone pages</strong> (Home, Services, About, Contact...). Essential to present deep details and maximize long-term SEO visibility.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Realtime Dynamic Calculation (Min 85€/200€) -->
+                    <div class="pt-6 border-t border-white/5 flex flex-col justify-between space-y-3 bg-brandBg/60 p-4 rounded-2xl">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[9px] text-brandMuted uppercase tracking-widest">ESTIMATION DU PROJET</span>
+                            <span class="text-[10px] text-brandAccent font-bold font-mono">Bespoke Blueprint</span>
+                        </div>
+                        <div class="flex items-baseline space-x-1">
+                            <span class="text-2xl font-display font-extrabold text-brandPrimary" x-text="
+                                lang === 'fr' ? (
+                                    plannerService === 'landing' ? 'À partir de 85€' : 'À partir de 200€'
+                                ) : (
+                                    plannerService === 'landing' ? 'Starting from 85€' : 'Starting from 200€'
+                                )
+                            "></span>
+                        </div>
+                        <span class="text-[9px] text-brandMuted italic leading-relaxed">
+                            <span x-show="lang === 'fr'">*Prix indicatif de démarrage, ajusté d'un commun accord lors de l'étude détaillée de votre besoin.</span>
+                            <span x-show="lang === 'en'">*Estimated baseline cost. Project specifics will modify final parameters.</span>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Panel Area (Email & Guidelines) -->
+            <div class="lg:col-span-7 glass-card p-8 md:p-12 rounded-3xl space-y-8" x-data="{ copied: false }">
+                <div>
+                    <span class="text-[10px] font-bold text-brandAccent uppercase tracking-widest block mb-2">
+                        <span x-show="lang === 'fr'">MÉTHODE DIRECTE</span>
+                        <span x-show="lang === 'en'">DIRECT CONTACT</span>
+                    </span>
+                    <h3 class="font-display text-2xl md:text-3xl font-extrabold text-brandWhite">
+                        <span x-show="lang === 'fr'">Écrivez-nous directement</span>
+                        <span x-show="lang === 'en'">Get in touch with us</span>
+                    </h3>
+                </div>
+
+                <!-- Central Email Visual Card -->
+                <div class="p-6 md:p-8 bg-brandBg/80 border border-white/5 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 transition-all hover:border-brandPrimary/20">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-brandPrimary/10 border border-brandPrimary/20 flex items-center justify-center text-brandPrimary shrink-0">
+                            <i class="fa-solid fa-envelope text-lg"></i>
+                        </div>
+                        <div class="text-center md:text-left">
+                            <span class="block text-brandMuted text-[9px] uppercase tracking-wider font-bold">EMAIL DIRECT</span>
+                            <a href="mailto:apstudiocontact@yahoo.com" class="font-display font-bold text-lg md:text-xl text-brandPrimary hover:underline cursor-hover tracking-wide">
+                                apstudiocontact@yahoo.com
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Copy Button -->
+                    <button 
+                        @click="
+                            const el = document.createElement('textarea');
+                            el.value = 'apstudiocontact@yahoo.com';
+                            document.body.appendChild(el);
+                            el.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(el);
+                            copied = true;
+                            setTimeout(() => copied = false, 2000);
+                        "
+                        class="px-5 py-2.5 rounded-full bg-[#121212] hover:bg-brandPrimary hover:text-brandBg border border-white/10 text-xs font-bold uppercase tracking-wider transition-all duration-300 shrink-0 cursor-hover flex items-center space-x-2"
+                    >
+                        <i :class="copied ? 'fa-solid fa-check text-brandAccent' : 'fa-solid fa-copy'"></i>
+                        <span x-show="!copied">
+                            <span x-show="lang === 'fr'">Copier</span>
+                            <span x-show="lang === 'en'">Copy</span>
+                        </span>
+                        <span x-show="copied" class="text-brandAccent">
+                            <span x-show="lang === 'fr'">Copié !</span>
+                            <span x-show="lang === 'en'">Copied!</span>
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Guidelines for Starting Conversation -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-brandWhite uppercase tracking-widest">
+                        <span x-show="lang === 'fr'">Détails recommandés pour débuter notre conversation</span>
+                        <span x-show="lang === 'en'">Details to share to kickstart our conversation</span>
+                    </h4>
+                    <p class="text-xs text-brandMuted leading-relaxed font-light">
+                        <span x-show="lang === 'fr'">Afin que nous puissions analyser au mieux votre vision et poser les bases de notre échange, merci de nous transmettre les détails suivants dans votre premier mail :</span>
+                        <span x-show="lang === 'en'">To help us capture your vision and lay the groundwork for our project, please include the following details in your email:</span>
+                    </p>
+                    <ul class="space-y-3.5 text-xs text-brandWhite/90 pl-1 font-light">
+                        <li class="flex items-start space-x-2">
+                            <span class="text-brandAccent mt-0.5">•</span>
+                            <span>
+                                <strong x-show="lang === 'fr'">Votre profil / Activité :</strong><strong x-show="lang === 'en'">Your Industry:</strong> 
+                                <span x-show="lang === 'fr'">Quelle est votre spécialité (Boutique, Entreprise Physique, Portfolio ou projet Digital).</span>
+                                <span x-show="lang === 'en'">Tell us about your industry or specialty (E-com, Physical shop, Portfolio, or Digital project).</span>
+                            </span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-brandAccent mt-0.5">•</span>
+                            <span>
+                                <strong x-show="lang === 'fr'">Format & Objectif :</strong><strong x-show="lang === 'en'">Format & Goal:</strong> 
+                                <span x-show="lang === 'fr'">Souhaitez-vous une Landing Page (85€) ou un Site Complet (200€) et quel est son but principal ?</span>
+                                <span x-show="lang === 'en'">Do you need a single landing page (85€) or a full website (200€), and what is its main objective?</span>
+                            </span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-brandAccent mt-0.5">•</span>
+                            <span>
+                                <strong x-show="lang === 'fr'">Inspirations & Délais :</strong><strong x-show="lang === 'en'">Inspirations & Timeline:</strong> 
+                                <span x-show="lang === 'fr'">Vos exemples de sites préférés, vos idées esthétiques et votre date idéale de mise en ligne.</span>
+                                <span x-show="lang === 'en'">Examples of sites you love, aesthetic preferences, and your ideal launch target.</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Professional frame warning -->
+                <div class="p-4 bg-red-950/10 border border-red-500/10 rounded-2xl flex items-start space-x-3">
+                    <div class="text-red-400 mt-0.5"><i class="fa-solid fa-circle-info text-sm"></i></div>
+                    <p class="text-[11px] text-brandMuted leading-relaxed">
+                        <span x-show="lang === 'fr'"><strong>Note importante :</strong> Nous vous remercions d'envoyer uniquement des e-mails dans un cadre strictement professionnel. Les sollicitations abusives ou sans lien avec un projet ne seront pas traitées.</span>
+                        <span x-show="lang === 'en'"><strong>Important note:</strong> Thank you for sending emails strictly related to professional inquiries. Unrelated requests or spam messages will not receive a reply.</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#060606] border-t border-white/5 py-16 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+            
+            <!-- Left Info Area -->
+            <div class="flex items-center space-x-4">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-brandPrimary via-brandBg to-brandAccent p-[1px]">
+                    <div class="w-full h-full bg-[#060606] rounded-[7px] flex items-center justify-center">
+                        <span class="font-display text-xs font-extrabold text-brandPrimary tracking-widest">APS</span>
+                    </div>
+                </div>
+                <div>
+                    <span class="block font-display text-xs font-bold text-brandWhite tracking-wider">APEX STUDIO</span>
+                    <span class="block text-[9px] text-brandMuted">
+                        &copy; 2026 Apex Studio. 
+                        <span x-show="lang === 'fr'">Tous droits réservés.</span>
+                        <span x-show="lang === 'en'">All rights reserved.</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Center Fast Navigate -->
+            <div class="flex flex-wrap justify-center gap-6 text-[10px] text-brandMuted uppercase tracking-wider font-semibold">
+                <a href="#about" class="hover:text-brandPrimary transition-colors cursor-hover">About</a>
+                <a href="#services" class="hover:text-brandPrimary transition-colors cursor-hover">Services</a>
+                <a href="#portfolio" class="hover:text-brandPrimary transition-colors cursor-hover">Portfolio</a>
+                <a href="#contact" class="hover:text-brandPrimary transition-colors cursor-hover">Contact</a>
+            </div>
+
+            <!-- Right Social Medias -->
+            <div class="flex items-center space-x-5 text-brandWhite/50 text-base">
+                <a href="#" class="hover:text-brandPrimary transition-colors cursor-hover" title="Instagram"><i class="fa-brands fa-instagram text-sm"></i></a>
+                <a href="#" class="hover:text-brandPrimary transition-colors cursor-hover" title="LinkedIn"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
+                <a href="#" class="hover:text-brandPrimary transition-colors cursor-hover" title="X (Twitter)"><i class="fa-brands fa-x-twitter text-sm"></i></a>
+                <a href="#" class="hover:text-brandPrimary transition-colors cursor-hover" title="Dribbble"><i class="fa-brands fa-dribbble text-sm"></i></a>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Interactive JS Scripts -->
+    <script>
+        // Set up the high-performance elegant glowing canvas background particles with mouse interaction
+        const canvas = document.getElementById('ambient-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        const particleCount = 22;
+        let mouse = { x: null, y: null, radius: 160 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    baseRadius: Math.random() * 150 + 80,
+                    radius: 0,
+                    color: Math.random() > 0.5 ? 'rgba(233, 223, 200, 0.04)' : 'rgba(168, 199, 161, 0.03)',
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4
+                });
+                particles[i].radius = particles[i].baseRadius;
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Push away from mouse
+                if (mouse.x !== null && mouse.y !== null) {
+                    let dx = p.x - mouse.x;
+                    let dy = p.y - mouse.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        let force = (mouse.radius - dist) / mouse.radius;
+                        p.x += (dx / dist) * force * 5;
+                        p.y += (dy / dist) * force * 5;
+                    }
+                }
+
+                if (p.x < -p.radius) p.x = canvas.width + p.radius;
+                if (p.x > canvas.width + p.radius) p.x = -p.radius;
+                if (p.y < -p.radius) p.y = canvas.height + p.radius;
+                if (p.y > canvas.height + p.radius) p.y = -p.radius;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // Custom cursor logic with smooth springy physics
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorFollower = document.getElementById('cursor-follower');
+
+        let cursorX = 0;
+        let cursorY = 0;
+        let followerX = 0;
+        let followerY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+            
+            cursorDot.style.left = `${cursorX}px`;
+            cursorDot.style.top = `${cursorY}px`;
+        });
+
+        function updateFollower() {
+            const dx = cursorX - followerX;
+            const dy = cursorY - followerY;
+            
+            followerX += dx * 0.12;
+            followerY += dy * 0.12;
+            
+            cursorFollower.style.left = `${followerX}px`;
+            cursorFollower.style.top = `${followerY}px`;
+            
+            requestAnimationFrame(updateFollower);
+        }
+
+        // Hover scale updates on dynamic interactive elements
+        function initCursorHovers() {
+            document.querySelectorAll('.cursor-hover').forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                    cursorDot.style.backgroundColor = '#A8C7A1';
+                    cursorFollower.style.width = '50px';
+                    cursorFollower.style.height = '50px';
+                    cursorFollower.style.borderColor = 'rgba(168, 199, 161, 0.6)';
+                });
+
+                element.addEventListener('mouseleave', () => {
+                    cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+                    cursorDot.style.backgroundColor = '#E9DFC8';
+                    cursorFollower.style.width = '36px';
+                    cursorFollower.style.height = '36px';
+                    cursorFollower.style.borderColor = 'rgba(233, 223, 200, 0.35)';
+                });
+            });
+        }
+
+        // Window resize binding
+        window.addEventListener('resize', initCanvas);
+
+        // Run animations after page is fully loaded to guarantee zero cumulative layout shifts
+        window.onload = function() {
+            initCanvas();
+            animateCanvas();
+            updateFollower();
+            initCursorHovers();
+
+            // GSAP Entrance reveals for premium hero animation
+            gsap.from(".hero-reveal", {
+                duration: 1.4,
+                y: 40,
+                opacity: 0,
+                stagger: 0.15,
+                ease: "power4.out"
+            });
+
+            // Parallax scroll movements inside visual showcase containers
+            gsap.utils.toArray('.glass-card').forEach(card => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 88%",
+                        toggleActions: "play none none none"
+                    },
+                    opacity: 0,
+                    y: 30,
+                    duration: 1.0,
+                    ease: "power3.out"
+                });
+            });
+        };
+    </script>
+
+</body>
+</html>
